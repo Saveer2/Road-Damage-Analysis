@@ -1,0 +1,311 @@
+{% extends "base.html" %}
+
+{% block title %}
+ROADVISION AI — Detection
+{% endblock %}
+
+{% block extra_css %}
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/detection.css') }}"
+>
+{% endblock %}
+
+
+{% block content %}
+
+<section class="detection-page">
+
+    <!-- Page Header -->
+    <div class="detection-header">
+
+        <span class="eyebrow">
+            ROAD DAMAGE DETECTION
+        </span>
+
+        <h1>
+            INSPECT THE
+            <span>ROAD.</span>
+        </h1>
+
+        <p>
+            Upload a road image and let the YOLO detection
+            system identify visible road damage.
+        </p>
+
+    </div>
+
+
+    <!-- Main Detection Area -->
+    <div class="detection-container">
+
+        <!-- Upload Panel -->
+        <div class="upload-panel">
+
+            <div class="panel-header">
+                <span>01</span>
+                <h2>UPLOAD IMAGE</h2>
+            </div>
+
+
+            <form
+                action="#"
+                method="POST"
+                enctype="multipart/form-data"
+                class="upload-form"
+            >
+
+                <label for="road-image" class="upload-box">
+
+                    <div class="upload-icon">
+                        +
+                    </div>
+
+                    <h3>
+                        UPLOAD ROAD IMAGE
+                    </h3>
+
+                    <p>
+                        Select a JPG, JPEG or PNG image
+                    </p>
+
+                    <span class="upload-note">
+                        MAXIMUM SIZE: 10 MB
+                    </span>
+
+                    <input
+                        type="file"
+                        id="road-image"
+                        name="road_image"
+                        accept=".jpg,.jpeg,.png"
+                        hidden
+                    >
+
+                </label>
+
+
+                <button
+                    type="submit"
+                    class="primary-button analyze-button"
+                >
+                    ANALYZE ROAD
+                    <span>→</span>
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- Preview Panel -->
+        <div class="preview-panel">
+
+            <div class="panel-header">
+                <span>02</span>
+                <h2>IMAGE PREVIEW</h2>
+            </div>
+
+
+            <div class="preview-box">
+
+                <div class="empty-preview">
+
+                    <div class="preview-icon">
+                        ◇
+                    </div>
+
+                    <h3>
+                        NO IMAGE SELECTED
+                    </h3>
+
+                    <p>
+                        Upload an image to preview the
+                        road surface before analysis.
+                    </p>
+
+                </div>
+
+                <!-- Image will be displayed here later -->
+                <img
+                    id="image-preview"
+                    src=""
+                    alt="Road image preview"
+                    class="preview-image"
+                >
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Results -->
+    <section class="results-section">
+
+        <div class="results-header">
+
+            <div>
+                <span class="eyebrow">
+                    DETECTION RESULTS
+                </span>
+
+                <h2>
+                    ANALYSIS <span>DATA.</span>
+                </h2>
+            </div>
+
+            <div class="result-status">
+                <span class="status-dot"></span>
+                WAITING FOR IMAGE
+            </div>
+
+        </div>
+
+
+        <div class="results-grid">
+
+            <!-- Detection Status -->
+            <div class="result-card">
+
+                <span class="result-label">
+                    DETECTION STATUS
+                </span>
+
+                <strong>
+                    NO DATA
+                </strong>
+
+                <p>
+                    No road image has been analyzed yet.
+                </p>
+
+            </div>
+
+
+            <!-- Damage Count -->
+            <div class="result-card">
+
+                <span class="result-label">
+                    DAMAGE DETECTED
+                </span>
+
+                <strong>
+                    —
+                </strong>
+
+                <p>
+                    Total detected damage instances.
+                </p>
+
+            </div>
+
+
+            <!-- Confidence -->
+            <div class="result-card">
+
+                <span class="result-label">
+                    CONFIDENCE
+                </span>
+
+                <strong>
+                    —
+                </strong>
+
+                <p>
+                    Average model confidence.
+                </p>
+
+            </div>
+
+
+            <!-- Severity -->
+            <div class="result-card">
+
+                <span class="result-label">
+                    SEVERITY
+                </span>
+
+                <strong>
+                    —
+                </strong>
+
+                <p>
+                    Overall road damage severity.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- Detailed Result -->
+        <div class="detailed-result">
+
+            <div class="detail-header">
+                <span>DAMAGE BREAKDOWN</span>
+            </div>
+
+            <div class="no-data">
+
+                <div class="no-data-icon">
+                    —
+                </div>
+
+                <h3>
+                    NO DETECTION DATA
+                </h3>
+
+                <p>
+                    Upload and analyze a road image to
+                    view detected damage and confidence scores.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</section>
+
+{% endblock %}
+
+
+{% block extra_js %}
+
+<script>
+
+const imageInput = document.getElementById("road-image");
+const previewImage = document.getElementById("image-preview");
+const emptyPreview = document.querySelector(".empty-preview");
+
+imageInput.addEventListener("change", function () {
+
+    const file = this.files[0];
+
+    if (!file) {
+        previewImage.style.display = "none";
+        emptyPreview.style.display = "flex";
+        return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function (event) {
+
+        previewImage.src = event.target.result;
+
+        previewImage.style.display = "block";
+        emptyPreview.style.display = "none";
+
+    };
+
+    reader.readAsDataURL(file);
+
+});
+
+</script>
+
+{% endblock %}
+

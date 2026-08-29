@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>{% block title %}ROADVISION AI{% endblock %}</title>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Main CSS -->
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+
+    <!-- Background effects -->
+    <div class="noise"></div>
+    <div class="grid-background"></div>
+
+    <!-- Navigation -->
+    <header class="navbar">
+
+        <a href="{{ url_for('home') }}" class="logo">
+            <span class="logo-symbol"></span>
+            <span>ROAD<span class="logo-accent">DETEECTION</span></span>
+        </a>
+
+        <nav class="nav-links">
+
+            <a href="{{ url_for('home') }}" class="active">
+                Home
+            </a>
+
+            <a href="{{ url_for('detection') }}">
+                Detection
+            </a>
+
+            <a href="{{ url_for('analytics') }}">
+                Analytics
+            </a>
+
+        </nav>
+
+        <div class="nav-right">
+
+            <div class="ai-status">
+                <span class="status-dot"></span>
+                ONLINE
+            </div>
+
+            <a href="{{ url_for('detection') }}" class="nav-button">
+                INFO
+                <span></span>
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <!-- Page content -->
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+
+    <!-- Footer -->
+    <footer class="footer">
+
+        <div>
+            <span class="logo-symbol"></span>
+            ROAD DETECTION
+        </div>
+
+        <div class="footer-center">
+            © 2026 ROAD DETECTION - SAVEER MORE
+        </div>
+
+        <div>
+            YOLO • COMPUTER VISION
+        </div>
+
+    </footer>
+
+
+    <script
+        src="{{ url_for('static', filename='js/main.js') }}"
+    ></script>
+
+    {% block extra_js %}{% endblock %}
+
+</body>
+</html>

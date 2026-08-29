@@ -1,0 +1,279 @@
+{% extends "base.html" %}
+
+{% block title %}
+ROADVISION AI — Road Damage Intelligence
+{% endblock %}
+
+
+{% block content %}
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <h1>
+            SEE THE ROAD.
+            <br>
+
+            <span class="gradient-text">
+                UNDERSTAND
+            </span>
+
+            THE DAMAGE.
+        </h1>
+
+
+        <p class="hero-description">
+            RoadVision uses advanced computer vision and YOLO
+            detection technology to identify road damage,
+            analyze severity, and transform road imagery
+            into actionable intelligence.
+        </p>
+
+
+        <div class="hero-buttons">
+
+            <a
+                href="{{ url_for('detection') }}"
+                class="primary-button"
+            >
+                START INSPECTION
+                <span></span>
+            </a>
+
+            <a
+                href="{{ url_for('analytics') }}"
+                class="secondary-button"
+            >
+                VIEW ANALYTICS
+            </a>
+
+        </div>
+
+
+        <div class="hero-meta">
+
+            <div>
+                <strong>NULL</strong>
+                <span>AI ACCURACY</span>
+            </div>
+
+            <div>
+                <strong>NULL</strong>
+                <span>IMAGES ANALYZED</span>
+            </div>
+
+            <div>
+                <strong>NULL</strong>
+                <span>AI MONITORING</span>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+
+
+</section>
+
+
+
+<section class="section">
+
+    <div class="section-heading">
+
+        <div>
+            <span class="eyebrow">
+                AI VISION SYSTEM
+            </span>
+
+            <h2>
+                WHAT WE <span>DETECT.</span>
+            </h2>
+        </div>
+
+    </div>
+
+
+    <div class="damage-grid">
+
+        <div class="damage-card">
+
+            <div class="card-number">01</div>
+
+            <div class="damage-icon">
+                1
+            </div>
+
+            <h3>POTHOLES</h3>
+
+            <p>
+                Detect cavities and surface failures
+                that can compromise road safety.
+            </p>
+
+            <div class="card-line"></div>
+
+            <span>OBJECT DETECTION</span>
+
+        </div>
+
+
+        <div class="damage-card">
+
+            <div class="card-number">02</div>
+
+            <div class="damage-icon crack">
+                2
+            </div>
+
+            <h3>CRACKS</h3>
+
+            <p>
+                Identify longitudinal, transverse and
+                complex road surface cracking.
+            </p>
+
+            <div class="card-line"></div>
+
+            <span>IMAGE ANALYSIS</span>
+
+        </div>
+
+
+        <div class="damage-card">
+
+            <div class="card-number">03</div>
+
+            <div class="damage-icon patch">
+                3
+            </div>
+
+            <h3>ROAD PATCHES</h3>
+
+            <p>
+                Detect repaired regions and identify
+                areas requiring further inspection.
+            </p>
+
+            <div class="card-line"></div>
+
+            <span>SURFACE ANALYSIS</span>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+
+<section class="workflow-section">
+
+    <div class="workflow-title">
+
+        <span class="eyebrow">
+            THE PIPELINE
+        </span>
+
+        <h2>
+            FROM ROAD IMAGE
+            <br>
+            TO <span>INTELLIGENCE.</span>
+        </h2>
+
+    </div>
+
+
+    <div class="workflow">
+
+        <div class="workflow-step">
+
+            <span class="step-number">01</span>
+
+            <h3>UPLOAD</h3>
+
+            <p>
+                Upload a road image or inspection
+                footage to the detection studio.
+            </p>
+
+        </div>
+
+
+        <div class="workflow-arrow">
+            →
+        </div>
+
+
+        <div class="workflow-step">
+
+            <span class="step-number">02</span>
+
+            <h3>ANALYZE</h3>
+
+            <p>
+                Our YOLO computer vision pipeline
+                scans the road surface.
+            </p>
+
+        </div>
+
+
+        <div class="workflow-arrow">
+            →
+        </div>
+
+
+        <div class="workflow-step">
+
+            <span class="step-number">03</span>
+
+            <h3>INSPECT</h3>
+
+            <p>
+                Receive detected damage, confidence
+                scores and severity insights.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+
+<section class="cta-section">
+
+    <div class="cta-glow"></div>
+
+    <span class="eyebrow">
+        ROAD DETECTION AI
+    </span>
+
+    <h2>
+        READY TO SEE ROADS
+        <span>DIFFERENTLY?</span>
+    </h2>
+
+    <p>
+        Start analyzing road damage with AI-powered
+        computer vision.
+    </p>
+
+    <a
+        href="{{ url_for('detection') }}"
+        class="primary-button large"
+    >
+        START DETECTION
+        
+    </a>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,387 @@
+
+{% extends "base.html" %}
+
+{% block title %}
+ROADVISION AI — Analytics
+{% endblock %}
+
+{% block extra_css %}
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/analytics.css') }}"
+>
+{% endblock %}
+
+
+{% block content %}
+
+<section class="analytics-page">
+
+    <!-- Page Header -->
+    <div class="analytics-header">
+
+        <div>
+            <span class="eyebrow">
+                ROADVISION AI
+            </span>
+
+            <h1>
+                DETECTION
+                <span>ANALYTICS.</span>
+            </h1>
+
+            <p>
+                View road damage detection statistics,
+                model performance and inspection data.
+            </p>
+        </div>
+
+        
+
+    </div>
+
+
+    <!-- Overview -->
+    <section class="analytics-section">
+
+        <div class="section-label">
+            <span>01</span>
+            OVERVIEW
+        </div>
+
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+
+                <span class="stat-label">
+                    IMAGES ANALYZED
+                </span>
+
+                <strong>
+                    0
+                </strong>
+
+                <p>
+                    Total road images processed.
+                </p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span class="stat-label">
+                    DAMAGE DETECTED
+                </span>
+
+                <strong>
+                    0
+                </strong>
+
+                <p>
+                    Total damage instances detected.
+                </p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span class="stat-label">
+                    MODEL CONFIDENCE
+                </span>
+
+                <strong>
+                    —
+                </strong>
+
+                <p>
+                    Average detection confidence.
+                </p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span class="stat-label">
+                    MODEL STATUS
+                </span>
+
+                <strong class="online">
+                    READY
+                </strong>
+
+                <p>
+                    YOLO detection system status.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Damage Distribution -->
+    <section class="analytics-section">
+
+        <div class="section-label">
+            <span>02</span>
+            DAMAGE DISTRIBUTION
+        </div>
+
+
+        <div class="analytics-grid">
+
+            <!-- Chart -->
+            <div class="chart-card">
+
+                <div class="card-header">
+
+                    <div>
+                        <h2>
+                            DETECTED DAMAGE
+                        </h2>
+
+                        <p>
+                            Distribution by damage category
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="chart-area">
+
+                    <div class="empty-chart">
+
+                        <div class="chart-icon">
+                            —
+                        </div>
+
+                        <h3>
+                            NO DATA AVAILABLE
+                        </h3>
+
+                        <p>
+                            Damage statistics will appear
+                            after road images are analyzed.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Category List -->
+            <div class="category-card">
+
+                <div class="card-header">
+
+                    <div>
+                        <h2>
+                            DAMAGE TYPES
+                        </h2>
+
+                        <p>
+                            Detection categories
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="category-list">
+
+                    <div class="category-row">
+
+                        <div class="category-name">
+                            <span class="category-dot pothole"></span>
+                            POTHOLE
+                        </div>
+
+                        <strong>0</strong>
+
+                    </div>
+
+
+                    <div class="category-row">
+
+                        <div class="category-name">
+                            <span class="category-dot crack"></span>
+                            CRACK
+                        </div>
+
+                        <strong>0</strong>
+
+                    </div>
+
+
+                    <div class="category-row">
+
+                        <div class="category-name">
+                            <span class="category-dot patch"></span>
+                            ROAD PATCH
+                        </div>
+
+                        <strong>0</strong>
+
+                    </div>
+
+
+                    <div class="category-row">
+
+                        <div class="category-name">
+                            <span class="category-dot other"></span>
+                            OTHER
+                        </div>
+
+                        <strong>0</strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Model Performance -->
+    <section class="analytics-section">
+
+        <div class="section-label">
+            <span>03</span>
+            MODEL PERFORMANCE
+        </div>
+
+
+        <div class="performance-grid">
+
+            <div class="performance-card">
+
+                <span>
+                    PRECISION
+                </span>
+
+                <strong>
+                    —
+                </strong>
+
+                <p>
+                    Detection precision
+                </p>
+
+            </div>
+
+
+            <div class="performance-card">
+
+                <span>
+                    RECALL
+                </span>
+
+                <strong>
+                    —
+                </strong>
+
+                <p>
+                    Detection recall
+                </p>
+
+            </div>
+
+
+            <div class="performance-card">
+
+                <span>
+                    F1 SCORE
+                </span>
+
+                <strong>
+                    —
+                </strong>
+
+                <p>
+                    Overall F1 performance
+                </p>
+
+            </div>
+
+
+            <div class="performance-card">
+
+                <span>
+                    mAP
+                </span>
+
+                <strong>
+                    —
+                </strong>
+
+                <p>
+                    Mean average precision
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Inspection Summary -->
+    <section class="analytics-section">
+
+        <div class="section-label">
+            <span>04</span>
+            INSPECTION SUMMARY
+        </div>
+
+
+        <div class="summary-card">
+
+            <div class="summary-content">
+
+                <div class="summary-icon">
+                    —
+                </div>
+
+                <div>
+
+                    <h2>
+                        NO INSPECTION DATA
+                    </h2>
+
+                    <p>
+                        Analyze a road image from the Detection
+                        page to generate inspection statistics.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <a
+                href="{{ url_for('detection') }}"
+                class="secondary-button"
+            >
+                GO TO DETECTION
+                <span>→</span>
+            </a>
+
+        </div>
+
+    </section>
+
+</section>
+
+{% endblock %}
+
