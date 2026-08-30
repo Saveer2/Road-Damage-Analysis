@@ -1,3 +1,4 @@
+
 {% extends "base.html" %}
 
 {% block title %}
@@ -16,12 +17,12 @@ ROADVISION AI — Detection
 
 <section class="detection-page">
 
-    <!-- Page Header -->
+
+  
+
     <div class="detection-header">
 
-        <span class="eyebrow">
-            ROAD DAMAGE DETECTION
-        </span>
+        
 
         <h1>
             INSPECT THE
@@ -29,56 +30,59 @@ ROADVISION AI — Detection
         </h1>
 
         <p>
-            Upload a road image and let the YOLO detection
-            system identify visible road damage.
+            Upload a road video and let the detection
+            system analyze the road surface frame by frame.
         </p>
 
     </div>
 
 
-    <!-- Main Detection Area -->
+
     <div class="detection-container">
 
-        <!-- Upload Panel -->
+
+        
+
         <div class="upload-panel">
 
             <div class="panel-header">
                 <span>01</span>
-                <h2>UPLOAD IMAGE</h2>
+                <h2>UPLOAD VIDEO</h2>
             </div>
 
 
             <form
-                action="#"
+                action="/detect"
                 method="POST"
                 enctype="multipart/form-data"
                 class="upload-form"
             >
 
-                <label for="road-image" class="upload-box">
+                <label for="road-video" class="upload-box">
 
                     <div class="upload-icon">
                         +
                     </div>
 
                     <h3>
-                        UPLOAD ROAD IMAGE
+                        UPLOAD ROAD VIDEO
                     </h3>
 
                     <p>
-                        Select a JPG, JPEG or PNG image
+                        Select an MP4, AVI or MOV video
                     </p>
 
                     <span class="upload-note">
-                        MAXIMUM SIZE: 10 MB
+                        MAXIMUM SIZE: 100 MB
                     </span>
 
                     <input
                         type="file"
-                        id="road-image"
-                        name="road_image"
-                        accept=".jpg,.jpeg,.png"
+                        id="road-video"
+                        name="road_video"
+                        accept=".mp4,.avi,.mov"
                         hidden
+                        required
                     >
 
                 </label>
@@ -88,7 +92,7 @@ ROADVISION AI — Detection
                     type="submit"
                     class="primary-button analyze-button"
                 >
-                    ANALYZE ROAD
+                    START ANALYSIS
                     <span>→</span>
                 </button>
 
@@ -97,16 +101,20 @@ ROADVISION AI — Detection
         </div>
 
 
-        <!-- Preview Panel -->
+        
+
         <div class="preview-panel">
 
             <div class="panel-header">
                 <span>02</span>
-                <h2>IMAGE PREVIEW</h2>
+                <h2>VIDEO PREVIEW</h2>
             </div>
 
 
             <div class="preview-box">
+
+
+                
 
                 <div class="empty-preview">
 
@@ -115,23 +123,25 @@ ROADVISION AI — Detection
                     </div>
 
                     <h3>
-                        NO IMAGE SELECTED
+                        NO VIDEO SELECTED
                     </h3>
 
                     <p>
-                        Upload an image to preview the
-                        road surface before analysis.
+                        Upload a road video to preview
+                        the footage before analysis.
                     </p>
 
                 </div>
 
-                <!-- Image will be displayed here later -->
-                <img
-                    id="image-preview"
-                    src=""
-                    alt="Road image preview"
-                    class="preview-image"
-                >
+
+               
+
+                <video
+                    id="video-preview"
+                    class="preview-video"
+                    controls
+                    muted
+                ></video>
 
             </div>
 
@@ -140,32 +150,48 @@ ROADVISION AI — Detection
     </div>
 
 
-    <!-- Results -->
+    
+
     <section class="results-section">
+
 
         <div class="results-header">
 
             <div>
+
                 <span class="eyebrow">
-                    DETECTION RESULTS
+                    ANALYSIS RESULTS
                 </span>
 
                 <h2>
-                    ANALYSIS <span>DATA.</span>
+                    ROAD <span>INTELLIGENCE.</span>
                 </h2>
+
             </div>
 
+
             <div class="result-status">
+
                 <span class="status-dot"></span>
-                WAITING FOR IMAGE
+
+                {% if result %}
+                    ANALYSIS COMPLETE
+                {% else %}
+                    WAITING FOR VIDEO
+                {% endif %}
+
             </div>
 
         </div>
 
 
+        
+
         <div class="results-grid">
 
-            <!-- Detection Status -->
+
+            
+
             <div class="result-card">
 
                 <span class="result-label">
@@ -173,17 +199,55 @@ ROADVISION AI — Detection
                 </span>
 
                 <strong>
-                    NO DATA
+
+                    {% if result %}
+                        COMPLETE
+                    {% else %}
+                        NO DATA
+                    {% endif %}
+
                 </strong>
 
                 <p>
-                    No road image has been analyzed yet.
+
+                    {% if result %}
+                        Video processing completed.
+                    {% else %}
+                        No road video has been analyzed yet.
+                    {% endif %}
+
                 </p>
 
             </div>
 
 
-            <!-- Damage Count -->
+        
+
+            <div class="result-card">
+
+                <span class="result-label">
+                    FRAMES EXTRACTED
+                </span>
+
+                <strong>
+
+                    {% if result %}
+                        {{ frames_count }}
+                    {% else %}
+                        —
+                    {% endif %}
+
+                </strong>
+
+                <p>
+                    Frames extracted from the uploaded video.
+                </p>
+
+            </div>
+
+
+          
+
             <div class="result-card">
 
                 <span class="result-label">
@@ -195,13 +259,14 @@ ROADVISION AI — Detection
                 </strong>
 
                 <p>
-                    Total detected damage instances.
+                    Total detected road damage instances.
                 </p>
 
             </div>
 
 
-            <!-- Confidence -->
+          
+
             <div class="result-card">
 
                 <span class="result-label">
@@ -218,33 +283,42 @@ ROADVISION AI — Detection
 
             </div>
 
+        </div>
 
-            <!-- Severity -->
-            <div class="result-card">
 
-                <span class="result-label">
-                    SEVERITY
+
+        <div class="detailed-result">
+
+
+            <div class="detail-header">
+                <span>
+                    VIDEO PROCESSING
                 </span>
+            </div>
 
-                <strong>
-                    —
-                </strong>
+
+            {% if result %}
+
+            <div class="no-data">
+
+                <div class="no-data-icon">
+                    ✓
+                </div>
+
+                <h3>
+                    VIDEO PROCESSED
+                </h3>
 
                 <p>
-                    Overall road damage severity.
+                    {{ frames_count }} frames were successfully
+                    extracted from the uploaded road video.
+                    The next stage will analyze these frames
+                    for potholes and other road damage.
                 </p>
 
             </div>
 
-        </div>
-
-
-        <!-- Detailed Result -->
-        <div class="detailed-result">
-
-            <div class="detail-header">
-                <span>DAMAGE BREAKDOWN</span>
-            </div>
+            {% else %}
 
             <div class="no-data">
 
@@ -253,15 +327,18 @@ ROADVISION AI — Detection
                 </div>
 
                 <h3>
-                    NO DETECTION DATA
+                    NO PROCESSING DATA
                 </h3>
 
                 <p>
-                    Upload and analyze a road image to
-                    view detected damage and confidence scores.
+                    Upload a road video and start the analysis
+                    to extract frames from the road footage.
                 </p>
 
             </div>
+
+            {% endif %}
+
 
         </div>
 
@@ -276,34 +353,37 @@ ROADVISION AI — Detection
 
 <script>
 
-const imageInput = document.getElementById("road-image");
-const previewImage = document.getElementById("image-preview");
+const videoInput = document.getElementById("road-video");
+const videoPreview = document.getElementById("video-preview");
 const emptyPreview = document.querySelector(".empty-preview");
 
-imageInput.addEventListener("change", function () {
+
+videoInput.addEventListener("change", function () {
 
     const file = this.files[0];
 
     if (!file) {
-        previewImage.style.display = "none";
+
+        videoPreview.style.display = "none";
+
         emptyPreview.style.display = "flex";
+
+        videoPreview.src = "";
+
         return;
     }
 
-    const reader = new FileReader();
 
-    reader.onload = function (event) {
+    const videoURL = URL.createObjectURL(file);
 
-        previewImage.src = event.target.result;
+    videoPreview.src = videoURL;
 
-        previewImage.style.display = "block";
-        emptyPreview.style.display = "none";
+    videoPreview.style.display = "block";
 
-    };
-
-    reader.readAsDataURL(file);
+    emptyPreview.style.display = "none";
 
 });
+
 
 </script>
 
