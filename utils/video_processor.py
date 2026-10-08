@@ -50,3 +50,44 @@ def extract_frames(video_path, output_folder, frame_interval=5):
     print(f"Extracted {saved_count} frames.")
 
     return extracted_frames
+
+def create_video_from_frames(
+    frames_folder,
+    output_video,
+    fps=30
+):
+    frames_folder = Path(frames_folder)
+    output_video = Path(output_video)
+
+    frame_files = sorted(frames_folder.glob("*.jpg"))
+
+    if not frame_files:
+        raise ValueError("No frames found.")
+
+    first_frame = cv2.imread(str(frame_files[0]))
+
+    if first_frame is None:
+        raise ValueError("Could not read the first frame.")
+
+    height, width = first_frame.shape[:2]
+
+    output_video.parent.mkdir(parents=True, exist_ok=True)
+
+    fourcc = cv2.VideoWriter_fourcc(*"mp4v")
+
+    writer = cv2.VideoWriter(
+        str(output_video),
+        fourcc,
+        fps,
+        (width, height)
+    )
+
+    for frame_file in frame_files:
+        frame = cv2.imread(str(frame_file))
+
+        if frame is not None:
+            writer.write(frame)
+
+    writer.release()
+
+    print(f"Video created: {output_video}")
