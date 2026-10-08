@@ -1,17 +1,30 @@
-from utils.video_processor import extract_frames
+from pathlib import Path
+from video_processor import extract_frames
+import sys
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+sys.path.append(str(BASE_DIR / "src"))
+
+from inference import run_inference
+
+VIDEO_PATH = BASE_DIR / "uploads" / "videos" / "test.mp4"
+FRAMES_DIR = BASE_DIR / "frames" / "extracted"
 
 
-video_path = "uploads/videos/test.mp4"
+if __name__ == "__main__":
+    frames = extract_frames(
+        VIDEO_PATH,
+        FRAMES_DIR,
+        frame_interval=5
+    )
 
-output_folder = "frames/extracted"
+    print(f"Frames extracted: {len(frames)}")
 
-frames = extract_frames(
-    video_path,
-    output_folder,
-    frame_interval=5
-)
+    results_dir = run_inference(
+        FRAMES_DIR,
+        output_name="video_predictions"
+    )
 
-print("\nFirst 5 extracted frames:")
-
-for frame in frames[:5]:
-    print(frame)
+    print("Video frame inference completed.")
+    print(f"Results saved to: {results_dir}")
