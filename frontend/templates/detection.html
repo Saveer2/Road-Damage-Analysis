@@ -1,4 +1,3 @@
-
 {% extends "base.html" %}
 
 {% block title %}
@@ -6,386 +5,297 @@ ROADVISION AI — Detection
 {% endblock %}
 
 {% block extra_css %}
+
 <link
     rel="stylesheet"
     href="{{ url_for('static', filename='css/detection.css') }}"
 >
 {% endblock %}
 
-
 {% block content %}
 
 <section class="detection-page">
 
+```
+<div class="detection-header">
 
-  
+    <h1>
+        INSPECT THE
+        <span>ROAD.</span>
+    </h1>
 
-    <div class="detection-header">
+    <p>
+        Upload a road video and let the detection
+        system analyze the road surface frame by frame.
+    </p>
 
-        
+</div>
 
-        <h1>
-            INSPECT THE
-            <span>ROAD.</span>
-        </h1>
+<div class="detection-container">
 
-        <p>
-            Upload a road video and let the detection
-            system analyze the road surface frame by frame.
-        </p>
+    <div class="upload-panel">
 
-    </div>
-
-
-
-    <div class="detection-container">
-
-
-        
-
-        <div class="upload-panel">
-
-            <div class="panel-header">
-                <span>01</span>
-                <h2>UPLOAD VIDEO</h2>
-            </div>
-
-
-            <form
-                action="/detect"
-                method="POST"
-                enctype="multipart/form-data"
-                class="upload-form"
-            >
-
-                <label for="road-video" class="upload-box">
-
-                    <div class="upload-icon">
-                        +
-                    </div>
-
-                    <h3>
-                        UPLOAD ROAD VIDEO
-                    </h3>
-
-                    <p>
-                        Select an MP4, AVI or MOV video
-                    </p>
-
-                    <span class="upload-note">
-                        MAXIMUM SIZE: 100 MB
-                    </span>
-
-                    <input
-                        type="file"
-                        id="road-video"
-                        name="road_video"
-                        accept=".mp4,.avi,.mov"
-                        hidden
-                        required
-                    >
-
-                </label>
-
-
-                <button
-                    type="submit"
-                    class="primary-button analyze-button"
-                >
-                    START ANALYSIS
-                    <span>→</span>
-                </button>
-
-            </form>
-
+        <div class="panel-header">
+            <span>01</span>
+            <h2>UPLOAD VIDEO</h2>
         </div>
 
+        <form
+            action="/detect"
+            method="POST"
+            enctype="multipart/form-data"
+            class="upload-form"
+        >
 
-        
+            <label for="road-video" class="upload-box">
 
-        <div class="preview-panel">
-
-            <div class="panel-header">
-                <span>02</span>
-                <h2>VIDEO PREVIEW</h2>
-            </div>
-
-
-            <div class="preview-box">
-
-
-                
-
-                <div class="empty-preview">
-
-                    <div class="preview-icon">
-                        ◇
-                    </div>
-
-                    <h3>
-                        NO VIDEO SELECTED
-                    </h3>
-
-                    <p>
-                        Upload a road video to preview
-                        the footage before analysis.
-                    </p>
-
+                <div class="upload-icon">
+                    +
                 </div>
 
+                <h3>
+                    UPLOAD ROAD VIDEO
+                </h3>
 
-               
+                <p>
+                    Select an MP4, AVI or MOV video
+                </p>
 
-                <video
-                    id="video-preview"
-                    class="preview-video"
-                    controls
-                    muted
-                ></video>
+                <span class="upload-note">
+                    MAXIMUM SIZE: 100 MB
+                </span>
 
-            </div>
+                <input
+                    type="file"
+                    id="road-video"
+                    name="road_video"
+                    accept=".mp4,.avi,.mov"
+                    hidden
+                    required
+                >
+
+            </label>
+
+            <button
+                type="submit"
+                class="primary-button analyze-button"
+            >
+                START ANALYSIS
+                <span>→</span>
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<section class="results-section">
+
+    <div class="results-header">
+
+        <div>
+
+            <span class="eyebrow">
+                ANALYSIS RESULTS
+            </span>
+
+            <h2>
+                ROAD <span>INTELLIGENCE.</span>
+            </h2>
+
+        </div>
+
+        <div class="result-status">
+
+            <span class="status-dot"></span>
+
+            {% if result %}
+                ANALYSIS COMPLETE
+            {% else %}
+                WAITING FOR VIDEO
+            {% endif %}
 
         </div>
 
     </div>
 
+    <div class="results-grid">
 
-    
+        <div class="result-card">
 
-    <section class="results-section">
+            <span class="result-label">
+                DETECTION STATUS
+            </span>
 
-
-        <div class="results-header">
-
-            <div>
-
-                <span class="eyebrow">
-                    ANALYSIS RESULTS
-                </span>
-
-                <h2>
-                    ROAD <span>INTELLIGENCE.</span>
-                </h2>
-
-            </div>
-
-
-            <div class="result-status">
-
-                <span class="status-dot"></span>
-
+            <strong>
                 {% if result %}
-                    ANALYSIS COMPLETE
+                    COMPLETE
                 {% else %}
-                    WAITING FOR VIDEO
+                    NO DATA
                 {% endif %}
+            </strong>
 
-            </div>
+            <p>
+                {% if result %}
+                    Video processing completed.
+                {% else %}
+                    No road video has been analyzed yet.
+                {% endif %}
+            </p>
 
         </div>
 
+        <div class="result-card">
 
-        
+            <span class="result-label">
+                FRAMES PROCESSED
+            </span>
+
+            <strong>
+                {% if result %}
+                    {{ frames_count }}
+                {% else %}
+                    —
+                {% endif %}
+            </strong>
+
+            <p>
+                Frames processed by the detection system.
+            </p>
+
+        </div>
+
+        <div class="result-card">
+
+            <span class="result-label">
+                DAMAGE DETECTED
+            </span>
+
+            <strong>
+                {% if result %}
+                    {{ damage_count }}
+                {% else %}
+                    —
+                {% endif %}
+            </strong>
+
+            <p>
+                Total detected road damage instances.
+            </p>
+
+        </div>
+
+        <div class="result-card">
+
+            <span class="result-label">
+                CONFIDENCE
+            </span>
+
+            <strong>
+                {% if result %}
+                    {{ "%.1f"|format(average_confidence) }}%
+                {% else %}
+                    —
+                {% endif %}
+            </strong>
+
+            <p>
+                Average model confidence.
+            </p>
+
+        </div>
+
+    </div>
+
+    {% if result %}
+
+    <div class="detailed-result">
+
+        <div class="detail-header">
+            <span>
+                DAMAGE BREAKDOWN
+            </span>
+        </div>
 
         <div class="results-grid">
 
-
-            
-
             <div class="result-card">
 
                 <span class="result-label">
-                    DETECTION STATUS
+                    POTHOLES
                 </span>
 
                 <strong>
-
-                    {% if result %}
-                        COMPLETE
-                    {% else %}
-                        NO DATA
-                    {% endif %}
-
+                    {{ class_counts["Pothole"] }}
                 </strong>
 
                 <p>
-
-                    {% if result %}
-                        Video processing completed.
-                    {% else %}
-                        No road video has been analyzed yet.
-                    {% endif %}
-
+                    Detected pothole instances.
                 </p>
 
             </div>
 
-
-        
-
             <div class="result-card">
 
                 <span class="result-label">
-                    FRAMES EXTRACTED
+                    CRACKS
                 </span>
 
                 <strong>
-
-                    {% if result %}
-                        {{ frames_count }}
-                    {% else %}
-                        —
-                    {% endif %}
-
+                    {{ class_counts["Crack"] }}
                 </strong>
 
                 <p>
-                    Frames extracted from the uploaded video.
+                    Detected crack instances.
                 </p>
 
             </div>
 
-
-          
-
             <div class="result-card">
 
                 <span class="result-label">
-                    DAMAGE DETECTED
+                    MANHOLES
                 </span>
 
                 <strong>
-                    —
+                    {{ class_counts["Manhole"] }}
                 </strong>
 
                 <p>
-                    Total detected road damage instances.
-                </p>
-
-            </div>
-
-
-          
-
-            <div class="result-card">
-
-                <span class="result-label">
-                    CONFIDENCE
-                </span>
-
-                <strong>
-                    —
-                </strong>
-
-                <p>
-                    Average model confidence.
+                    Detected manhole instances.
                 </p>
 
             </div>
 
         </div>
 
+    </div>
 
+    <div class="detailed-result">
 
-        <div class="detailed-result">
-
-
-            <div class="detail-header">
-                <span>
-                    VIDEO PROCESSING
-                </span>
-            </div>
-
-
-            {% if result %}
-
-            <div class="no-data">
-
-                <div class="no-data-icon">
-                    ✓
-                </div>
-
-                <h3>
-                    VIDEO PROCESSED
-                </h3>
-
-                <p>
-                    {{ frames_count }} frames were successfully
-                    extracted from the uploaded road video.
-                    The next stage will analyze these frames
-                    for potholes and other road damage.
-                </p>
-
-            </div>
-
-            {% else %}
-
-            <div class="no-data">
-
-                <div class="no-data-icon">
-                    —
-                </div>
-
-                <h3>
-                    NO PROCESSING DATA
-                </h3>
-
-                <p>
-                    Upload a road video and start the analysis
-                    to extract frames from the road footage.
-                </p>
-
-            </div>
-
-            {% endif %}
-
-
+        <div class="detail-header">
+            <span>
+                PROCESSED VIDEO
+            </span>
         </div>
 
-    </section>
+        <a
+            href="{{ url_for('static', filename=result_video) }}"
+            download
+            class="primary-button"
+        >
+            DOWNLOAD PROCESSED VIDEO
+            <span>↓</span>
+        </a>
+
+    </div>
+
+    {% endif %}
+
+</section>
+```
 
 </section>
 
 {% endblock %}
-
-
-{% block extra_js %}
-
-<script>
-
-const videoInput = document.getElementById("road-video");
-const videoPreview = document.getElementById("video-preview");
-const emptyPreview = document.querySelector(".empty-preview");
-
-
-videoInput.addEventListener("change", function () {
-
-    const file = this.files[0];
-
-    if (!file) {
-
-        videoPreview.style.display = "none";
-
-        emptyPreview.style.display = "flex";
-
-        videoPreview.src = "";
-
-        return;
-    }
-
-
-    const videoURL = URL.createObjectURL(file);
-
-    videoPreview.src = videoURL;
-
-    videoPreview.style.display = "block";
-
-    emptyPreview.style.display = "none";
-
-});
-
-
-</script>
-
-{% endblock %}
-
